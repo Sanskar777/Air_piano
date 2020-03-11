@@ -13,8 +13,8 @@ while(True):
     ret, frame = cap.read()
     im = cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
     if count==1:
-        imageA = prev_im
-        imageB = im
+        grayA = prev_im
+        grayB = im
         (score, diff) = compare_ssim(grayA, grayB, full=True)
         diff = (diff * 255).astype("uint8")
         print("SSIM: {}".format(score))
@@ -25,8 +25,17 @@ while(True):
         cnts = imutils.grab_contours(cnts)
         cv2.imshow("Original", imageA)
         cv2.imshow("Modified", imageB)
-        cv2.imshow("Diff", diff)
+
         cv2.imshow("Thresh", thresh)
+
+        c = max(cnts, key=cv2.contourArea)
+        extLeft = tuple(c[c[:, :, 0].argmin()][0])
+        extRight = tuple(c[c[:, :, 0].argmax()][0])
+        extTop = tuple(c[c[:, :, 1].argmin()][0])
+        cv2.circle(diff, extLeft, 8, (0, 0, 255), -1)
+        cv2.circle(diff, extRight, 8, (0, 255, 0), -1)
+        cv2.circle(diff, extTop, 8, (255, 0, 0), -1)
+        cv2.imshow("Diff", diff)
         prev_im = im
         if cv2.waitKey(20) & 0xFF == ord('q'):
             break
