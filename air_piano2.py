@@ -1,4 +1,4 @@
-mpy as np
+import numpy as np
 from time import sleep
 import cv2
 import time
