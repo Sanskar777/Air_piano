@@ -1,4 +1,4 @@
-import numpy as np
+mpy as np
 from time import sleep
 import cv2
 import time
@@ -39,6 +39,35 @@ while(True):
         cv2.circle(frame, extTop, 8, (255, 0, 0), -1)
         cv2.imshow("Diff", frame)
         prev_im = im
+        start_point=(0,75+75)
+        end_point=(30,0+75)
+        color = (255, 0, 0)
+        thickness = 2
+
+        for i in range(0,640,30):
+          thresholded_img = cv2.rectangle(thresholded_img, start_point, end_point, color, thickness)
+          start_point=(i,75+75)
+          end_point=(30+i,0+75)
+        for i in range(0,3):
+          start_point=(20+i*210,225+75)
+          end_point=(i*210+40,75+75)
+          thresholded_img = cv2.rectangle(thresholded_img, start_point, end_point, color, thickness)
+          start_point=(i*210+50,225+75)
+          end_point=(i*210+70,75+75)
+          thresholded_img = cv2.rectangle(thresholded_img, start_point, end_point, color, thickness)
+          start_point=(i*210+110,225+75)
+          end_point=(i*210+130,75+75)
+          thresholded_img = cv2.rectangle(thresholded_img, start_point, end_point, color, thickness)
+          start_point=(i*210+140,225+75)
+          end_point=(i*210+160,75+75)
+          thresholded_img = cv2.rectangle(thresholded_img, start_point, end_point, color, thickness)
+          start_point=(i*210+170,225+75)
+          end_point=(i*210+190,75+75)
+          thresholded_img = cv2.rectangle(thresholded_img, start_point, end_point, color, thickness)
+       #let the input detected be an array of bool values corresponding to each key k[36]
+       for i in range(0,36):
+         if(k[i]):
+            playsound(str(i)+'.mp3')
         if cv2.waitKey(20) & 0xFF == ord('q'):
             break
     else:
