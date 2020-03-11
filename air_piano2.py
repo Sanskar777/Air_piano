@@ -37,34 +37,39 @@ while(True):
         #cv2.circle(frame, extLeft, 8, (0, 0, 255), -1)
         #cv2.circle(frame, extRight, 8, (0, 255, 0), -1)
         cv2.circle(frame, extTop, 8, (255, 0, 0), -1)
-        cv2.imshow("Diff", frame)
+
         prev_im = im
-        start_point=(0,75+75)
-        end_point=(30,0+75)
+        num_keys = 21
+        width, height = frame.shape[0],frame.shape[1]
+        y0 = height//2
+        x_width = width//num_keys
+        start_point=(0,y0)
+        end_point=(x_width,0)
         color = (255, 0, 0)
         thickness = 2
 
-        for i in range(0,640,30):
+        for i in range(0,num_keys):
+          start_point=(i*x_width,y0)
+          end_point=(x_width+start_point[0],0)
           frame = cv2.rectangle(frame, start_point, end_point, color, thickness)
-          start_point=(i,75+75)
-          end_point=(30+i,0+75)
         for i in range(0,3):
-          start_point=(20+i*210,225+75)
-          end_point=(i*210+40,75+75)
+          start_point=(20+i*210,y0)
+          end_point=(i*210+40,150)
           frame = cv2.rectangle(frame, start_point, end_point, color, thickness)
-          start_point=(i*210+50,225+75)
-          end_point=(i*210+70,75+75)
+          start_point=(i*210+50,y0)
+          end_point=(i*210+70,150)
           frame = cv2.rectangle(frame, start_point, end_point, color, thickness)
-          start_point=(i*210+110,225+75)
-          end_point=(i*210+130,75+75)
+          start_point=(i*210+110,y0)
+          end_point=(i*210+130,150)
           frame = cv2.rectangle(frame, start_point, end_point, color, thickness)
-          start_point=(i*210+140,225+75)
-          end_point=(i*210+160,75+75)
+          start_point=(i*210+140,y0)
+          end_point=(i*210+160,150)
           frame = cv2.rectangle(frame, start_point, end_point, color, thickness)
-          start_point=(i*210+170,225+75)
-          end_point=(i*210+190,75+75)
+          start_point=(i*210+170,y0)
+          end_point=(i*210+190,150)
           frame = cv2.rectangle(frame, start_point, end_point, color, thickness)
        #let the input detected be an array of bool values corresponding to each key k[36]
+       cv2.imshow("Diff", frame)
        for i in range(0,36):
          if(k[i]):
             playsound(str(i)+'.mp3')
