@@ -6,7 +6,7 @@ from skimage.measure import compare_ssim
 import argparse
 import imutils
 
-cap = cv2.VideoCapture(4)
+cap = cv2.VideoCapture(0)
 
 count=0
 while(True):
@@ -36,7 +36,7 @@ while(True):
         extTop = tuple(c[c[:, :, 1].argmin()][0])
         #cv2.circle(frame, extLeft, 8, (0, 0, 255), -1)
         #cv2.circle(frame, extRight, 8, (0, 255, 0), -1)
-        cv2.circle(frame, extTop, 8, (255, 0, 0), -1)
+        cv2.circle(frame, extTop, 8, (0, 255, 0), -1)
 
         prev_im = im
         num_keys = 21
@@ -45,7 +45,7 @@ while(True):
         x_width = width//num_keys
         start_point=(0,y0)
         end_point=(x_width,0)
-        color = (255, 0, 0)
+        color = (0, 0, 0)
         thickness = 2
 
         for i in range(0,num_keys):
@@ -56,19 +56,33 @@ while(True):
         for i in range(0,3):
           start_point=(20+i*210,y0+100)
           end_point=(i*210+40,150)
-          frame = cv2.rectangle(frame, start_point, end_point, color, thickness)
+          frame = cv2.rectangle(frame, start_point, end_point, color, -1)
           start_point=(i*210+50,y0+100)
           end_point=(i*210+70,150)
-          frame = cv2.rectangle(frame, start_point, end_point, color, thickness)
+          frame = cv2.rectangle(frame, start_point, end_point, color, -1)
           start_point=(i*210+110,y0+100)
           end_point=(i*210+130,150)
-          frame = cv2.rectangle(frame, start_point, end_point, color, thickness)
+          frame = cv2.rectangle(frame, start_point, end_point, color, -1)
           start_point=(i*210+140,y0+100)
           end_point=(i*210+160,150)
-          frame = cv2.rectangle(frame, start_point, end_point, color, thickness)
+          frame = cv2.rectangle(frame, start_point, end_point, color, -1)
           start_point=(i*210+170,y0+100)
           end_point=(i*210+190,150)
-          frame = cv2.rectangle(frame, start_point, end_point, color, thickness)
+          frame = cv2.rectangle(frame, start_point, end_point, color, -1)
+
+        # boundaries = [([0,200,0],[0,255,0])]
+        # for (lower,upper) in boundaries:
+        #     lower = np.array(lower,dtype = 'uint8')
+        #     upper = np.array(upper,dtype = 'uint8')
+        #     mask = cv2.inRange(frame,lower,upper)
+        #     output = cv2.bitwise_and(frame,frame,mask=mask)
+        #     for i in range(frame.shape[0]):
+        #         for j in range(frame.shape[1]):
+        #             if(frame[i][j][1]>200):
+        #                 detected_point=(i,j)
+        #                 break
+        #         break
+        # cv2.circle(frame,(detected_point[0],detected_point[1]),8,(255,0,0),-1)
         cv2.imshow("Diff", frame)
 
         if cv2.waitKey(20) & 0xFF == ord('q'):
