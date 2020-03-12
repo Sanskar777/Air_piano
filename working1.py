@@ -85,6 +85,129 @@ while(True):
         # cv2.circle(frame,(detected_point[0],detected_point[1]),8,(255,0,0),-1)
         cv2.imshow("Diff", frame)
 
+        #code for k array
+        #int num=len(extTop)
+        pkeys=np.zeros(36)
+        x_key = extTop[0]
+        y_key = extTop[1]
+        if y_key < (y0+100):
+          if x_key < 20:
+            pkeys[0]=1
+          elif x_key < 40:
+            pkeys[21]=1
+          elif x_key < 50:
+            pkeys[1]=1
+          elif x_key < 70:
+            pkeys[22]=1
+          elif x_key < 90:
+            pkeys[2]=1
+          elif x_key < 110:
+            pkeys[3]=1
+          elif x_key < 130:
+            pkeys[23]=1
+          elif x_key < 140:
+            pkeys[4]=1
+          elif x_key < 160:
+            pkeys[24]=1
+          elif x_key < 170:
+            pkeys[5]=1
+          elif x_key < 190:
+            pkeys[25]=1
+          elif x_key < 210:
+            pkeys[6]=1
+          elif x_key < 210+20:
+            pkeys[7]=1
+          elif x_key < 210+40:
+            pkeys[26]=1
+          elif x_key < 210+50:
+            pkeys[8]=1
+          elif x_key < 210+70:
+            pkeys[27]=1
+          elif x_key < 210+90:
+            pkeys[9]=1
+          elif x_key < 210+110:
+            pkeys[10]=1
+          elif x_key < 210+130:
+            pkeys[28]=1
+          elif x_key < 210+140:
+            pkeys[11]=1
+          elif x_key < 210+160:
+            pkeys[29]=1
+          elif x_key < 210+170:
+            pkeys[12]=1
+          elif x_key < 210+190:
+            pkeys[30]=1
+          elif x_key < 210+210:
+            pkeys[13]=1
+          if x_key < 420+20:
+            pkeys[14]=1
+          elif x_key < 420+40:
+            pkeys[31]=1
+          elif x_key < 420+50:
+            pkeys[15]=1
+          elif x_key < 420+70:
+            pkeys[32]=1
+          elif x_key < 420+90:
+            pkeys[16]=1
+          elif x_key < 420+110:
+            pkeys[17]=1
+          elif x_key < 420+130:
+            pkeys[33]=1
+          elif x_key < 420+140:
+            pkeys[18]=1
+          elif x_key < 420+160:
+            pkeys[34]=1
+          elif x_key < 420+170:
+            pkeys[19]=1
+          elif x_key < 420+190:
+            pkeys[35]=1
+          elif x_key < 420+210:
+            pkeys[20]=1
+        else:
+          if x_key < 30:
+            pkeys[0]=1
+          elif x_key<60:
+            pkeys[1]=1
+          elif x_key<90:
+            pkeys[2]=1
+          elif x_key<120:
+            pkeys[3]=1
+          elif x_key<150:
+            pkeys[4]=1
+          elif x_key<180:
+            pkeys[5]=1
+          elif x_key<210:
+            pkeys[6]=1
+          elif x_key < 210+30:
+            pkeys[7]=1
+          elif x_key<210+60:
+            pkeys[8]=1
+          elif x_key<210+90:
+            pkeys[9]=1
+          elif x_key<210+120:
+            pkeys[10]=1
+          elif x_key<210+150:
+            pkeys[11]=1
+          elif x_key<210+180:
+            pkeys[12]=1
+          elif x_key<210+210:
+            pkeys[13]=1
+          elif x_key < 420+30:
+            pkeys[14]=1
+          elif x_key<420+60:
+            pkeys[15]=1
+          elif x_key<420+90:
+            pkeys[16]=1
+          elif x_key<420+120:
+            pkeys[17]=1
+          elif x_key<420+150:
+            pkeys[18]=1
+          elif x_key<420+180:
+            pkeys[19]=1
+          elif x_key<420+210:
+            pkeys[20]=1
+        #code for k array
+
         if cv2.waitKey(20) & 0xFF == ord('q'):
              break
     else:
