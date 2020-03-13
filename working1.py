@@ -6,18 +6,39 @@ from skimage.measure import compare_ssim
 import argparse
 import imutils
 # from pygame import mixer
-from playsound import playsound
+#from playsound import playsound
 import threading
+import pyaudio
+import wave
+import sys
 
 lock =np.zeros(36)
 thread_string=[]
+data=[]
+stream=[]
+wf=[]
+p = pyaudio.PyAudio()
+CHUNK=1024
+
 for i in range(36):
     thread_string.append('t'+str(i))
+    data.append('data'+str(i))
+    stream.append('stream'+str(i))
+    wf.append('wf'+str(i))
 
 def play_music(i):
-    playsound(str(i)+'.mp3')
+    wf[i] = wave.open(str(i)+'.wav','rb')
+    stream[i] = p.open(format=p.get_format_from_width(wf[i].getsampwidth()),
+                        channels=wf[i].getnchannels(),
+                        rate=wf[i].getframerate(),
+                        output=True)
+    data[i] = wf[i].readframes(CHUNK)
+    while len(data[i]) > 0:
+        stream[i].write(data[i])
+        data[i] = wf[i].readframes(CHUNK)
+    stream[i].stop_stream()
+    stream[i].close()
     lock[i]=0
-    # thread_string[i].exit()
     return
 
 count=0
@@ -28,7 +49,7 @@ if __name__ == '__main__' :
         frame = cv2.flip(frame,1)
         frame = cv2.flip(frame,0)
         im = cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
-        if count%10==1:
+        if count%3==1:
             grayA = prev_im
             grayB = im
             (score, diff) = compare_ssim(grayA, grayB, full=True)
@@ -207,13 +228,16 @@ if __name__ == '__main__' :
 
             for i in range(len(pkeys)):
                 if pkeys[i]>0:
-                    print (str(i)+ " key is active")
+                    # print (str(i)+ " key is active")
                     if lock[i]==0:
                         lock[i]=1
+                        print (str(i)+ " key is active")
                         thread_string[i] = threading.Thread(target=play_music,args=(i,))
                         thread_string[i].start()
                         #thread_string[i].join()
                         # lock[i]=0
+                    else:
+                        print ('key in use')
                     # mixer.init()
                     # playsound(str(i)+'.mp3')
                     # mixer.music.play()
