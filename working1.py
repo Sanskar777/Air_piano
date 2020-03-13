@@ -5,27 +5,30 @@ import time
 from skimage.measure import compare_ssim
 import argparse
 import imutils
-from pygame import mixer
+# from pygame import mixer
 from playsound import playsound
 import threading
 
+lock =np.zeros(36)
+thread_string=[]
+for i in range(36):
+    thread_string.append('t'+str(i))
+
 def play_music(i):
     playsound(str(i)+'.mp3')
+    lock[i]=0
+    # thread_string[i].exit()
     return
 
 count=0
 if __name__ == '__main__' :
-    thread_string=[]
-    lock =np.zeros(36)
-    for i in range(36):
-        thread_string.append('t'+str(i))
     cap = cv2.VideoCapture(1)
     while(True):
         ret, frame = cap.read()
         frame = cv2.flip(frame,1)
         frame = cv2.flip(frame,0)
         im = cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
-        if count==1:
+        if count%10==1:
             grayA = prev_im
             grayB = im
             (score, diff) = compare_ssim(grayA, grayB, full=True)
@@ -36,10 +39,10 @@ if __name__ == '__main__' :
             cnts = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,
             cv2.CHAIN_APPROX_SIMPLE)
             cnts = imutils.grab_contours(cnts)
-            cv2.imshow("Original", grayA)
-            cv2.imshow("Modified", grayB)
+            # cv2.imshow("Original", grayA)
+            # cv2.imshow("Modified", grayB)
 
-            cv2.imshow("Thresh", thresh)
+            # cv2.imshow("Thresh", thresh)
 
             c = max(cnts, key=cv2.contourArea)
             #extLeft = tuple(c[c[:, :, 0].argmin()][0])
@@ -63,7 +66,7 @@ if __name__ == '__main__' :
               start_point=(i*x_width,150)
               end_point=(x_width+start_point[0],height)
               frame = cv2.rectangle(frame, start_point, end_point, color, thickness)
-            cv2.imshow("Diff1", frame)
+            # cv2.imshow("Diff1", frame)
             for i in range(0,3):
               start_point=(20+i*210,y0+100)
               end_point=(i*210+40,150)
@@ -80,6 +83,7 @@ if __name__ == '__main__' :
               start_point=(i*210+170,y0+100)
               end_point=(i*210+190,150)
               frame = cv2.rectangle(frame, start_point, end_point, color, -1)
+            cv2.imshow("Diff", frame)
             pkeys=np.zeros(36)
             x_key = extTop[0]
             y_key = extTop[1]
@@ -200,6 +204,7 @@ if __name__ == '__main__' :
               elif x_key<420+210:
                 pkeys[20]=1
             #code for k array
+
             for i in range(len(pkeys)):
                 if pkeys[i]>0:
                     print (str(i)+ " key is active")
@@ -208,15 +213,15 @@ if __name__ == '__main__' :
                         thread_string[i] = threading.Thread(target=play_music,args=(i,))
                         thread_string[i].start()
                         #thread_string[i].join()
-                        lock[i]=0
+                        # lock[i]=0
                     # mixer.init()
                     # playsound(str(i)+'.mp3')
                     # mixer.music.play()
 
-            cv2.imshow("Diff", frame)
+            # cv2.imshow("Diff", frame)
 
             if cv2.waitKey(20) & 0xFF == ord('q'):
                  break
         else:
-            count=1
+            count=count+1
             prev_im = im
