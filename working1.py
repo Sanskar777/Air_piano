@@ -27,7 +27,7 @@ for i in range(36):
     wf.append('wf'+str(i))
 
 def play_music(i):
-    wf[i] = wave.open(str(i)+'.wav','rb')
+    wf[i] = wave.open(str(i+1)+'.wav','rb')
     stream[i] = p.open(format=p.get_format_from_width(wf[i].getsampwidth()),
                         channels=wf[i].getnchannels(),
                         rate=wf[i].getframerate(),
